@@ -34,3 +34,161 @@
         }
         
         .header h2 {
+            margin-bottom: 5px;
+        }
+        
+        .form {
+            padding: 20px;
+        }
+        
+        .info {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background: #2980b9;
+        }
+        
+        .result {
+            background: #27ae60;
+            color: #fff;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .result-item:last-child {
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="calc">
+        <div class="header">
+            <h2>Calculadora VET</h2>
+            <p>Dólar Comercial</p>
+        </div>
+        
+        <div class="form">
+            <div class="info">
+                <div class="row">
+                    <span>Spread:</span>
+                    <strong>0,90%</strong>
+                </div>
+                <div class="row">
+                    <span>IOF:</span>
+                    <strong>3,50%</strong>
+                </div>
+                <div class="row">
+                    <span>Fórmula:</span>
+                    <strong>Cotação × 1,009 × 1,035</strong>
+                </div>
+            </div>
+            
+            <input type="number" id="cotacao" placeholder="Cotação USD (ex: 5.15)" step="0.01">
+            <input type="number" id="valor" placeholder="Valor USD (ex: 1000)" step="0.01">
+            
+            <button onclick="calcular()">Calcular VET</button>
+            
+            <div class="result" id="result">
+                <div class="result-item">
+                    <span>Cotação base:</span>
+                    <span id="cotacaoBase">R$ 0,0000</span>
+                </div>
+                <div class="result-item">
+                    <span>Cotação + Spread:</span>
+                    <span id="cotacaoSpread">R$ 0,0000</span>
+                </div>
+                <div class="result-item">
+                    <span>Cotação VET:</span>
+                    <span id="cotacaoVET">R$ 0,0000</span>
+                </div>
+                <div class="result-item">
+                    <span>VALOR TOTAL:</span>
+                    <span id="valorTotal">R$ 0,00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calcular() {
+            const cotacao = parseFloat(document.getElementById('cotacao').value);
+            const valor = parseFloat(document.getElementById('valor').value);
+            
+            if (!cotacao || !valor || cotacao <= 0 || valor <= 0) {
+                alert('Por favor, preencha todos os campos com valores válidos.');
+                return;
+            }
+            
+            // Aplicar spread na cotação
+            const cotacaoComSpread = cotacao * 1.009;
+            
+            // Aplicar IOF na cotação com spread
+            const cotacaoFinal = cotacaoComSpread * 1.035;
+            
+            // Valor total a pagar
+            const valorTotalPagar = cotacaoFinal * valor;
+            
+            // Exibir resultados
+            document.getElementById('cotacaoBase').textContent = 'R$ ' + cotacao.toFixed(4).replace('.', ',');
+            document.getElementById('cotacaoSpread').textContent = 'R$ ' + cotacaoComSpread.toFixed(4).replace('.', ',');
+            document.getElementById('cotacaoVET').textContent = 'R$ ' + cotacaoFinal.toFixed(4).replace('.', ',');
+            document.getElementById('valorTotal').textContent = 'R$ ' + valorTotalPagar.toFixed(2).replace('.', ',');
+            
+            // Mostrar resultado
+            document.getElementById('result').style.display = 'block';
+        }
+        
+        // Permitir cálculo com Enter
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calcular();
+            }
+        });
+    </script>
+</body>
+</html>
