@@ -18,7 +18,7 @@
         }
         
         .calc {
-            max-width: 400px;
+            max-width: 450px;
             margin: 0 auto;
             background: #fff;
             border-radius: 8px;
@@ -55,13 +55,35 @@
             margin-bottom: 3px;
         }
         
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+            font-size: 0.9rem;
+        }
+        
         input {
             width: 100%;
             padding: 10px;
-            margin: 8px 0;
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 1rem;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
         
         button {
@@ -103,6 +125,31 @@
             padding-top: 8px;
             border-top: 1px solid rgba(255,255,255,0.3);
         }
+        
+        .percent-input {
+            position: relative;
+        }
+        
+        .percent-input::after {
+            content: '%';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+        
+        .percent-input input {
+            padding-right: 25px;
+        }
+        
+        @media (max-width: 500px) {
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -115,21 +162,37 @@
         <div class="form">
             <div class="info">
                 <div class="row">
-                    <span>Spread:</span>
-                    <strong>0,90%</strong>
-                </div>
-                <div class="row">
-                    <span>IOF:</span>
+                    <span>IOF (fixo):</span>
                     <strong>3,50%</strong>
                 </div>
                 <div class="row">
+                    <span>Spread:</span>
+                    <strong>Variável</strong>
+                </div>
+                <div class="row">
                     <span>Fórmula:</span>
-                    <strong>Cotação × 1,009 × 1,035</strong>
+                    <strong>Cotação × (1 + Spread/100) × 1,035</strong>
                 </div>
             </div>
             
-            <input type="number" id="cotacao" placeholder="Cotação USD (ex: 5.15)" step="0.01">
-            <input type="number" id="valor" placeholder="Valor USD (ex: 1000)" step="0.01">
+            <div class="form-group">
+                <label for="cotacao">Cotação USD (R$)</label>
+                <input type="number" id="cotacao" placeholder="Ex: 5.15" step="0.01">
+            </div>
+            
+            <div class="input-row">
+                <div class="form-group">
+                    <label for="spread">Spread (%)</label>
+                    <div class="percent-input">
+                        <input type="number" id="spread" value="0.90" step="0.01" min="0" max="10">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="valor">Valor USD</label>
+                    <input type="number" id="valor" placeholder="Ex: 1000" step="0.01">
+                </div>
+            </div>
             
             <button onclick="calcular()">Calcular VET</button>
             
@@ -147,6 +210,10 @@
                     <span id="cotacaoVET">R$ 0,0000</span>
                 </div>
                 <div class="result-item">
+                    <span>Custo efetivo total:</span>
+                    <span id="custoTotal">0,00%</span>
+                </div>
+                <div class="result-item">
                     <span>VALOR TOTAL:</span>
                     <span id="valorTotal">R$ 0,00</span>
                 </div>
@@ -157,26 +224,34 @@
     <script>
         function calcular() {
             const cotacao = parseFloat(document.getElementById('cotacao').value);
+            const spreadPercent = parseFloat(document.getElementById('spread').value);
             const valor = parseFloat(document.getElementById('valor').value);
             
-            if (!cotacao || !valor || cotacao <= 0 || valor <= 0) {
+            if (!cotacao || spreadPercent === '' || !valor || cotacao <= 0 || spreadPercent < 0 || valor <= 0) {
                 alert('Por favor, preencha todos os campos com valores válidos.');
                 return;
             }
             
-            // Aplicar spread na cotação
-            const cotacaoComSpread = cotacao * 1.009;
+            // Converter spread de porcentagem para decimal
+            const spreadDecimal = spreadPercent / 100;
             
-            // Aplicar IOF na cotação com spread
+            // Aplicar spread na cotação
+            const cotacaoComSpread = cotacao * (1 + spreadDecimal);
+            
+            // Aplicar IOF (3,50%) na cotação com spread
             const cotacaoFinal = cotacaoComSpread * 1.035;
             
             // Valor total a pagar
             const valorTotalPagar = cotacaoFinal * valor;
             
+            // Calcular custo efetivo total em porcentagem
+            const custoEfetivoPercent = ((cotacaoFinal / cotacao - 1) * 100);
+            
             // Exibir resultados
             document.getElementById('cotacaoBase').textContent = 'R$ ' + cotacao.toFixed(4).replace('.', ',');
             document.getElementById('cotacaoSpread').textContent = 'R$ ' + cotacaoComSpread.toFixed(4).replace('.', ',');
             document.getElementById('cotacaoVET').textContent = 'R$ ' + cotacaoFinal.toFixed(4).replace('.', ',');
+            document.getElementById('custoTotal').textContent = custoEfetivoPercent.toFixed(3).replace('.', ',') + '%';
             document.getElementById('valorTotal').textContent = 'R$ ' + valorTotalPagar.toFixed(2).replace('.', ',');
             
             // Mostrar resultado
@@ -187,6 +262,17 @@
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 calcular();
+            }
+        });
+        
+        // Validação do campo spread
+        document.getElementById('spread').addEventListener('input', function(e) {
+            let value = parseFloat(e.target.value);
+            if (value > 10) {
+                e.target.value = 10;
+            }
+            if (value < 0) {
+                e.target.value = 0;
             }
         });
     </script>
