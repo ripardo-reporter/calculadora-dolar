@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora VET - Dólar Comercial</title>
+    <title>Calculadora de Compra de Dólar - Custo Real</title>
     <style>
         * {
             margin: 0;
@@ -43,6 +43,7 @@
         .header p {
             font-size: 1.1rem;
             opacity: 0.9;
+            margin-bottom: 10px;
         }
         
         .badge {
@@ -50,8 +51,79 @@
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
-            margin-top: 10px;
+            margin-top: 5px;
             display: inline-block;
+        }
+        
+        .vet-explanation {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        
+        .market-analysis {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .analysis-header {
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .range-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .range-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+        
+        .range-label {
+            opacity: 0.9;
+            margin-bottom: 2px;
+        }
+        
+        .range-value {
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+        
+        .market-status {
+            text-align: center;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .status-badge.good {
+            background: rgba(46, 204, 113, 0.8);
+            color: white;
+        }
+        
+        .status-text {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            line-height: 1.3;
         }
         
         .form {
@@ -79,6 +151,18 @@
             border-top: 1px solid #dee2e6;
             padding-top: 5px;
             margin-top: 5px;
+        }
+        
+        .formula-row {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        
+        .formula-text {
+            font-size: 0.8rem;
+            word-break: break-all;
+            line-height: 1.3;
         }
         
         .form-group {
@@ -212,6 +296,66 @@
             display: block;
         }
         
+        .market-insight {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .market-insight.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        .insight-header {
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+        
+        .position-indicator {
+            margin-bottom: 10px;
+        }
+        
+        .position-bar {
+            position: relative;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .position-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27ae60, #f39c12, #e74c3c);
+            border-radius: 4px;
+            transition: width 0.8s ease-out;
+        }
+        
+        .position-marker {
+            position: absolute;
+            top: -2px;
+            transform: translateX(-50%);
+            font-size: 12px;
+            transition: left 0.8s ease-out;
+        }
+        
+        .position-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+        
+        .position-text {
+            font-size: 0.85rem;
+            text-align: center;
+            line-height: 1.3;
+        }
+        
         .share-section {
             padding: 20px;
             background: #f8f9fa;
@@ -247,15 +391,48 @@
             .header h1 {
                 font-size: 1.6rem;
             }
+            
+            .vet-explanation {
+                font-size: 0.8rem;
+            }
+            
+            .formula-text {
+                font-size: 0.75rem;
+                line-height: 1.4;
+            }
+            
+            .info-row {
+                font-size: 0.85rem;
+            }
+            
+            .market-analysis {
+                margin-top: 10px;
+            }
+            
+            .range-info {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .range-item {
+                flex-direction: row;
+                justify-content: space-between;
+                font-size: 0.75rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>💰 Calculadora VET</h1>
-            <p>Dólar Comercial</p>
-            <div class="badge">🎯 Descubra o custo REAL</div>
+            <h1>💰 Calculadora de Compra de Dólar</h1>
+            <p>Descubra o Custo Real</p>
+            <div class="badge">🎯 Spread + IOF</div>
+            
+            <div class="vet-explanation">
+                <strong>💡 O que é VET?</strong><br>
+                VET significa <strong>Valor Efetivo Total</strong> - é o custo real que você paga para <strong>comprar dólares</strong>, incluindo o spread do banco e o IOF (Imposto Federal sobre Operações Financeiras) de 3,5%.
+            </div>
         </div>
         
         <div class="form">
@@ -268,9 +445,9 @@
                     <span>📈 Spread:</span>
                     <strong>Variável</strong>
                 </div>
-                <div class="info-row">
+                <div class="info-row formula-row">
                     <span>🧮 Fórmula:</span>
-                    <strong>Cotação × (1 + Spread/100) × 1,035</strong>
+                    <div class="formula-text"><strong>Cotação × (1 + Spread/100) × 1,035</strong></div>
                 </div>
             </div>
             
@@ -294,7 +471,7 @@
             </div>
             
             <button class="btn-calculate" onclick="calcular()">
-                🚀 Calcular VET
+                🚀 Calcular Custo Real
             </button>
             
             <div class="results" id="results">
@@ -308,10 +485,10 @@
                 </div>
                 <div class="result-item">
                     <span>💸 Custo Spread:</span>
-                    <span class="result-value" id="valorSpreadReais">R$ 0,00</span>
+                    <span class="result-value" id="valorSpreadReais">R$ 0,00 (R$ 0,0000/US$)</span>
                 </div>
                 <div class="result-item">
-                    <span>🎯 Cotação VET:</span>
+                    <span>🎯 Cotação Final (VET):</span>
                     <span class="result-value" id="cotacaoVET">R$ 0,0000</span>
                 </div>
                 <div class="result-item">
@@ -319,18 +496,37 @@
                     <span class="result-value" id="valorIOFReais">R$ 0,00</span>
                 </div>
                 <div class="result-item">
-                    <span>📉 Taxa efetiva:</span>
+                    <span>📉 Taxa efetiva total:</span>
                     <span class="result-value" id="custoTotal">0,00%</span>
                 </div>
                 <div class="result-item highlight">
-                    <span>💰 VALOR TOTAL:</span>
+                    <span>💰 VALOR TOTAL A PAGAR:</span>
                     <span class="result-value" id="valorTotal">R$ 0,00</span>
                 </div>
             </div>
             
             <div class="comparison" id="comparison">
-                <strong>⚠️ ATENÇÃO:</strong> Você pagará <span id="extraCost">R$ 0,00</span> a mais que a soma pela cotação básica!
+                <strong>⚠️ ATENÇÃO:</strong> Você pagará <span id="extraCost">R$ 0,00</span> a mais que o valor pela cotação básica!
                 <div id="extraCostPerDollar" style="margin-top: 8px; font-size: 0.9rem; opacity: 0.9;"></div>
+            </div>
+            
+            <div class="market-insight" id="marketInsight">
+                <div class="insight-header">🎯 Análise de Posicionamento</div>
+                <div class="insight-content">
+                    <div class="position-indicator">
+                        <div class="position-bar">
+                            <div class="position-fill" id="positionFill"></div>
+                            <div class="position-marker" id="positionMarker">📍</div>
+                        </div>
+                        <div class="position-labels">
+                            <span>Mín: R$ 5,30</span>
+                            <span>Máx: R$ 5,60</span>
+                        </div>
+                    </div>
+                    <div class="position-text" id="positionText">
+                        Sua cotação está no 10º percentil do range de 90 dias - excelente momento para compra!
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -375,7 +571,12 @@
             // Exibir resultados
             document.getElementById('cotacaoBase').textContent = 'R$ ' + cotacao.toFixed(4).replace('.', ',');
             document.getElementById('cotacaoSpread').textContent = 'R$ ' + cotacaoComSpread.toFixed(4).replace('.', ',');
-            document.getElementById('valorSpreadReais').textContent = 'R$ ' + valorSpreadEmReais.toFixed(2).replace('.', ',');
+            
+            // Custo do spread por dólar
+            const custoPorDolarSpread = cotacaoComSpread - cotacao;
+            document.getElementById('valorSpreadReais').textContent = 'R$ ' + valorSpreadEmReais.toFixed(2).replace('.', ',') + 
+                ' (R$ ' + custoPorDolarSpread.toFixed(4).replace('.', ',') + '/US$)';
+            
             document.getElementById('cotacaoVET').textContent = 'R$ ' + cotacaoFinal.toFixed(4).replace('.', ',');
             document.getElementById('valorIOFReais').textContent = 'R$ ' + valorIOFEmReais.toFixed(2).replace('.', ',');
             document.getElementById('custoTotal').textContent = custoEfetivoPercent.toFixed(3).replace('.', ',') + '%';
@@ -393,8 +594,63 @@
                 `💡 Isso significa <strong>R$ ${custoPorDolar.toFixed(4).replace('.', ',')}</strong> a mais por cada US$ 1,00`;
             comparisonSection.classList.add('show');
             
+            // Mostrar análise de posicionamento
+            mostrarAnalisePositional(cotacao);
+            
             // Scroll suave para os resultados
             document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function mostrarAnalisePositional(cotacao) {
+            // Dados reais do Bloomberg + Wise (90 dias)
+            const minima90 = 5.2972;  
+            const maxima90 = 5.6003;  
+            const range = maxima90 - minima90;
+            
+            // Calcular posição, mesmo se estiver fora do range
+            let posicaoNoRange = ((cotacao - minima90) / range) * 100;
+            
+            // Limitar a barra visual entre 0-100%
+            const posicaoVisual = Math.max(0, Math.min(100, posicaoNoRange));
+            
+            // Configurar barra de posição
+            const positionFill = document.getElementById('positionFill');
+            const positionMarker = document.getElementById('positionMarker');
+            const positionText = document.getElementById('positionText');
+            
+            positionFill.style.width = posicaoVisual + '%';
+            positionMarker.style.left = posicaoVisual + '%';
+            
+            // Determinar texto e cor baseado na posição REAL
+            let texto, cor;
+            
+            if (cotacao > maxima90) {
+                // Cotação ACIMA da máxima histórica
+                const percentAcimaMaxima = ((cotacao - maxima90) / maxima90 * 100);
+                texto = `⚠️ Cuidado! Cotação R$ ${cotacao.toFixed(4)} está ${percentAcimaMaxima.toFixed(1)}% ACIMA da máxima de 90 dias (R$ 5,60). Momento desfavorável para compra! 🔴`;
+                cor = '#e74c3c';
+            } else if (cotacao < minima90) {
+                // Cotação ABAIXO da mínima histórica
+                const percentAbaixoMinima = ((minima90 - cotacao) / minima90 * 100);
+                texto = `🎯 Excepcional! Cotação R$ ${cotacao.toFixed(4)} está ${percentAbaixoMinima.toFixed(1)}% ABAIXO da mínima de 90 dias (R$ 5,30). Momento histórico para compra! 💚`;
+                cor = '#27ae60';
+            } else if (posicaoNoRange < 25) {
+                texto = `Excelente momento! Sua cotação está no ${posicaoNoRange.toFixed(0)}º percentil - muito próxima da mínima recente (R$ 5,30). 🎯`;
+                cor = '#27ae60';
+            } else if (posicaoNoRange < 50) {
+                texto = `Bom momento para compra! Cotação no ${posicaoNoRange.toFixed(0)}º percentil - abaixo da média dos últimos 90 dias. 👍`;
+                cor = '#f39c12';
+            } else if (posicaoNoRange < 75) {
+                texto = `Cotação no ${posicaoNoRange.toFixed(0)}º percentil - acima da média. Considere aguardar uma baixa. ⚠️`;
+                cor = '#e67e22';
+            } else {
+                texto = `Cotação no ${posicaoNoRange.toFixed(0)}º percentil - próxima à máxima (R$ 5,60). Momento menos favorável. 🔴`;
+                cor = '#e74c3c';
+            }
+            
+            positionText.textContent = texto;
+            document.getElementById('marketInsight').style.background = `linear-gradient(135deg, ${cor}, ${cor}dd)`;
+            document.getElementById('marketInsight').classList.add('show');
         }
         
         function compartilharWhatsApp() {
@@ -403,18 +659,19 @@
             const valor = document.getElementById('valor').value;
             const total = document.getElementById('valorTotal').textContent;
             
-            const texto = `💰 *Calculadora VET - Dólar*%0A%0A` +
+            const texto = `💰 *Calculadora de Compra de Dólar*%0A%0A` +
                         `📊 Cotação: R$ ${cotacao}%0A` +
                         `📈 Spread: ${spread}%%0A` +
                         `💵 Valor: US$ ${valor}%0A` +
-                        `🎯 *Total VET: ${total}*%0A%0A` +
-                        `🔗 Calcule o seu: https://ripardo-reporter.github.io/calculadora-vet-dolar`;
+                        `🎯 *Total com VET: ${total}*%0A%0A` +
+                        `📈 *Análise:* Cotação próxima da mínima dos últimos 90 dias - excelente momento!%0A%0A` +
+                        `🔗 Calcule o seu: https://ripardo-reporter.github.io/calculadora-dolar`;
             
             window.open(`https://wa.me/?text=${texto}`, '_blank');
         }
         
         function compartilharLinkedIn() {
-            const texto = `Calculei o VET real para compra de dólares! Descubra quanto você realmente paga: https://ripardo-reporter.github.io/calculadora-vet-dolar`;
+            const texto = `Calculei o custo real para compra de dólares (VET)! A cotação atual está próxima da mínima dos últimos 90 dias - excelente momento para compra! Descubra quanto você realmente paga: https://ripardo-reporter.github.io/calculadora-dolar`;
             window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(texto)}`, '_blank');
         }
         
