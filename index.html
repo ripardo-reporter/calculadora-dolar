@@ -12,118 +12,106 @@
         }
         
         body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             padding: 10px;
         }
         
-        .calc {
-            max-width: 450px;
+        .container {
+            max-width: 500px;
             margin: 0 auto;
             background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
         }
         
         .header {
-            background: #2c3e50;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
             color: #fff;
-            padding: 15px;
+            padding: 25px;
             text-align: center;
-            border-radius: 8px 8px 0 0;
         }
         
-        .header h2 {
-            margin-bottom: 5px;
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            display: inline-block;
         }
         
         .form {
-            padding: 20px;
+            padding: 25px;
         }
         
         .info {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
             font-size: 0.9rem;
         }
         
-        .row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 3px;
+        .info-row:last-child {
+            font-weight: bold;
+            color: #2c3e50;
+            border-top: 1px solid #dee2e6;
+            padding-top: 5px;
+            margin-top: 5px;
         }
         
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
         
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
-            font-size: 0.9rem;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.95rem;
         }
         
         input {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
             font-size: 1rem;
+            transition: all 0.3s ease;
         }
         
         input:focus {
             outline: none;
             border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
         }
         
         .input-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-        }
-        
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #3498db;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-            font-size: 1rem;
-            font-weight: bold;
-        }
-        
-        button:hover {
-            background: #2980b9;
-        }
-        
-        .result {
-            background: #27ae60;
-            color: #fff;
-            padding: 15px;
-            margin-top: 15px;
-            border-radius: 5px;
-            display: none;
-        }
-        
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
-        
-        .result-item:last-child {
-            font-weight: bold;
-            font-size: 1.1rem;
-            padding-top: 8px;
-            border-top: 1px solid rgba(255,255,255,0.3);
         }
         
         .percent-input {
@@ -133,91 +121,223 @@
         .percent-input::after {
             content: '%';
             position: absolute;
-            right: 12px;
+            right: 15px;
             top: 50%;
             transform: translateY(-50%);
             color: #666;
-            font-size: 0.9rem;
+            font-weight: bold;
             pointer-events: none;
         }
         
         .percent-input input {
-            padding-right: 25px;
+            padding-right: 35px;
         }
         
-        @media (max-width: 500px) {
+        .btn-calculate {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .results {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: #fff;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 12px;
+            display: none;
+        }
+        
+        .results.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+        
+        .result-item.highlight {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .result-value {
+            font-weight: bold;
+        }
+        
+        .comparison {
+            background: #e74c3c;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .comparison.show {
+            display: block;
+        }
+        
+        .share-section {
+            padding: 20px;
+            background: #f8f9fa;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .share-btn {
+            background: #25d366;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .share-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .share-btn.linkedin {
+            background: #0077b5;
+        }
+        
+        @media (max-width: 600px) {
             .input-row {
                 grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.6rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="calc">
+    <div class="container">
         <div class="header">
-            <h2>Calculadora VET</h2>
+            <h1>💰 Calculadora VET</h1>
             <p>Dólar Comercial</p>
+            <div class="badge">🎯 Descubra o custo REAL</div>
         </div>
         
         <div class="form">
             <div class="info">
-                <div class="row">
-                    <span>IOF (fixo):</span>
+                <div class="info-row">
+                    <span>💼 IOF (fixo):</span>
                     <strong>3,50%</strong>
                 </div>
-                <div class="row">
-                    <span>Spread:</span>
+                <div class="info-row">
+                    <span>📈 Spread:</span>
                     <strong>Variável</strong>
                 </div>
-                <div class="row">
-                    <span>Fórmula:</span>
+                <div class="info-row">
+                    <span>🧮 Fórmula:</span>
                     <strong>Cotação × (1 + Spread/100) × 1,035</strong>
                 </div>
             </div>
             
             <div class="form-group">
-                <label for="cotacao">Cotação USD (R$)</label>
-                <input type="number" id="cotacao" placeholder="Ex: 5.15" step="0.01">
+                <label for="cotacao">💵 Cotação USD (R$)</label>
+                <input type="number" id="cotacao" placeholder="Ex: 5.329" step="0.001" value="5.329">
             </div>
             
             <div class="input-row">
                 <div class="form-group">
-                    <label for="spread">Spread (%)</label>
+                    <label for="spread">📊 Spread (%)</label>
                     <div class="percent-input">
                         <input type="number" id="spread" value="0.90" step="0.01" min="0" max="10">
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="valor">Valor USD</label>
-                    <input type="number" id="valor" placeholder="Ex: 1000" step="0.01">
+                    <label for="valor">💰 Valor USD</label>
+                    <input type="number" id="valor" placeholder="Ex: 1000" step="0.01" value="100">
                 </div>
             </div>
             
-            <button onclick="calcular()">Calcular VET</button>
+            <button class="btn-calculate" onclick="calcular()">
+                🚀 Calcular VET
+            </button>
             
-            <div class="result" id="result">
+            <div class="results" id="results">
                 <div class="result-item">
-                    <span>Cotação base:</span>
-                    <span id="cotacaoBase">R$ 0,0000</span>
+                    <span>📊 Cotação base:</span>
+                    <span class="result-value" id="cotacaoBase">R$ 0,0000</span>
                 </div>
                 <div class="result-item">
-                    <span>Cotação + Spread:</span>
-                    <span id="cotacaoSpread">R$ 0,0000</span>
+                    <span>📈 Cotação + Spread:</span>
+                    <span class="result-value" id="cotacaoSpread">R$ 0,0000</span>
                 </div>
                 <div class="result-item">
-                    <span>Cotação VET:</span>
-                    <span id="cotacaoVET">R$ 0,0000</span>
+                    <span>💸 Custo Spread:</span>
+                    <span class="result-value" id="valorSpreadReais">R$ 0,00</span>
                 </div>
                 <div class="result-item">
-                    <span>Custo efetivo total:</span>
-                    <span id="custoTotal">0,00%</span>
+                    <span>🎯 Cotação VET:</span>
+                    <span class="result-value" id="cotacaoVET">R$ 0,0000</span>
                 </div>
                 <div class="result-item">
-                    <span>VALOR TOTAL:</span>
-                    <span id="valorTotal">R$ 0,00</span>
+                    <span>🧾 Custo IOF:</span>
+                    <span class="result-value" id="valorIOFReais">R$ 0,00</span>
+                </div>
+                <div class="result-item">
+                    <span>📉 Taxa efetiva:</span>
+                    <span class="result-value" id="custoTotal">0,00%</span>
+                </div>
+                <div class="result-item highlight">
+                    <span>💰 VALOR TOTAL:</span>
+                    <span class="result-value" id="valorTotal">R$ 0,00</span>
                 </div>
             </div>
+            
+            <div class="comparison" id="comparison">
+                <strong>⚠️ ATENÇÃO:</strong> Você pagará <span id="extraCost">R$ 0,00</span> a mais que a soma pela cotação básica!
+                <div id="extraCostPerDollar" style="margin-top: 8px; font-size: 0.9rem; opacity: 0.9;"></div>
+            </div>
+        </div>
+        
+        <div class="share-section">
+            <p><strong>💡 Gostou? Compartilhe!</strong></p>
+            <button class="share-btn" onclick="compartilharWhatsApp()">📱 WhatsApp</button>
+            <button class="share-btn linkedin" onclick="compartilharLinkedIn()">💼 LinkedIn</button>
         </div>
     </div>
 
@@ -228,7 +348,7 @@
             const valor = parseFloat(document.getElementById('valor').value);
             
             if (!cotacao || spreadPercent === '' || !valor || cotacao <= 0 || spreadPercent < 0 || valor <= 0) {
-                alert('Por favor, preencha todos os campos com valores válidos.');
+                alert('⚠️ Por favor, preencha todos os campos com valores válidos.');
                 return;
             }
             
@@ -244,18 +364,58 @@
             // Valor total a pagar
             const valorTotalPagar = cotacaoFinal * valor;
             
+            // Calcular valores em reais
+            const valorSpreadEmReais = (cotacaoComSpread - cotacao) * valor;
+            const valorIOFEmReais = (cotacaoFinal - cotacaoComSpread) * valor;
+            const diferencaTotalReais = (cotacaoFinal - cotacao) * valor;
+            
             // Calcular custo efetivo total em porcentagem
             const custoEfetivoPercent = ((cotacaoFinal / cotacao - 1) * 100);
             
             // Exibir resultados
             document.getElementById('cotacaoBase').textContent = 'R$ ' + cotacao.toFixed(4).replace('.', ',');
             document.getElementById('cotacaoSpread').textContent = 'R$ ' + cotacaoComSpread.toFixed(4).replace('.', ',');
+            document.getElementById('valorSpreadReais').textContent = 'R$ ' + valorSpreadEmReais.toFixed(2).replace('.', ',');
             document.getElementById('cotacaoVET').textContent = 'R$ ' + cotacaoFinal.toFixed(4).replace('.', ',');
+            document.getElementById('valorIOFReais').textContent = 'R$ ' + valorIOFEmReais.toFixed(2).replace('.', ',');
             document.getElementById('custoTotal').textContent = custoEfetivoPercent.toFixed(3).replace('.', ',') + '%';
             document.getElementById('valorTotal').textContent = 'R$ ' + valorTotalPagar.toFixed(2).replace('.', ',');
             
-            // Mostrar resultado
-            document.getElementById('result').style.display = 'block';
+            // Mostrar seção de resultados
+            document.getElementById('results').classList.add('show');
+            
+            // Mostrar comparação
+            const comparisonSection = document.getElementById('comparison');
+            const custoPorDolar = (cotacaoFinal - cotacao);
+            
+            document.getElementById('extraCost').textContent = 'R$ ' + diferencaTotalReais.toFixed(2).replace('.', ',');
+            document.getElementById('extraCostPerDollar').innerHTML = 
+                `💡 Isso significa <strong>R$ ${custoPorDolar.toFixed(4).replace('.', ',')}</strong> a mais por cada US$ 1,00`;
+            comparisonSection.classList.add('show');
+            
+            // Scroll suave para os resultados
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function compartilharWhatsApp() {
+            const cotacao = document.getElementById('cotacao').value;
+            const spread = document.getElementById('spread').value;
+            const valor = document.getElementById('valor').value;
+            const total = document.getElementById('valorTotal').textContent;
+            
+            const texto = `💰 *Calculadora VET - Dólar*%0A%0A` +
+                        `📊 Cotação: R$ ${cotacao}%0A` +
+                        `📈 Spread: ${spread}%%0A` +
+                        `💵 Valor: US$ ${valor}%0A` +
+                        `🎯 *Total VET: ${total}*%0A%0A` +
+                        `🔗 Calcule o seu: https://ripardo-reporter.github.io/calculadora-vet-dolar`;
+            
+            window.open(`https://wa.me/?text=${texto}`, '_blank');
+        }
+        
+        function compartilharLinkedIn() {
+            const texto = `Calculei o VET real para compra de dólares! Descubra quanto você realmente paga: https://ripardo-reporter.github.io/calculadora-vet-dolar`;
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(texto)}`, '_blank');
         }
         
         // Permitir cálculo com Enter
@@ -275,6 +435,11 @@
                 e.target.value = 0;
             }
         });
+        
+        // Calcular automaticamente quando carregar a página
+        window.onload = function() {
+            setTimeout(calcular, 500);
+        };
     </script>
 </body>
 </html>
